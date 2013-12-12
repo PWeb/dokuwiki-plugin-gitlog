@@ -10,11 +10,10 @@ Just add this into wiki page:
 <gitlog:repository=my-repository-name [bare=0] [limit=10]>
 ````
 
-And it will build you a list of your latest commits
+And it will build you a list of your latest commits.
 
 ## Requirements:
 
-  * Bookmark-plugin installed for Dokuwiki
   * PHP5
   * Git
 
@@ -27,3 +26,4 @@ And it will build you a list of your latest commits
 
 
 Author: Alexander Wenzel (alexander.wenzel.berlin@gmail.com)
+Plugin page: http://www.dokuwiki.org/plugin:gitlog
