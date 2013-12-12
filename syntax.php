@@ -100,36 +100,7 @@ class syntax_plugin_gitlog extends DokuWiki_Syntax_Plugin
 				foreach($log as $row)
 				{
 					$renderer->doc .= '<li class="commit"><span class="message">';
-					$message = $row['message'];
-
-					for($index = 0; $index < strlen($message); $index++)
-					{
-						$char = $message[$index];
-
-						if($char == '#')
-						{
-							foreach(array_keys($elements) as $element)
-							{
-								$cmp = '#'.$element;
-								$src = substr($message, $index, strlen($cmp));
-								if(strstr($src, $cmp))
-								{
-									$key = substr($message, $index+1, strlen($cmp)-1);
-									
-									$src= substr($message, $index+1+strlen($key));
-									$value = substr($src, 0, find_end($src));
-									$index += strlen($element.$value); 
-									$renderer->internallink($data[$elements[$element]].'#'.$element.$value, '#'.$element.$value);
-
-								}
-							}
-						}
-						else
-						{
-							$renderer->doc .= $char;
-						}
-					}
-
+					$renderer->doc .= $row['message'];
 					$renderer->doc .= '</span><span class="meta">';
 					$renderer->doc .= $row['author'].' on '.date($this->getConf('date_format'), $row['timestamp']);				
 					$renderer->doc .= '</span>';
