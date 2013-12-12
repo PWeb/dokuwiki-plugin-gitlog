@@ -1,0 +1,22 @@
+.dokugitviewerextended li.commit {
+	margin-bottom: 10px;
+}
+
+.dokugitviewerextended li.commit span.message {
+	font-weight: bold;
+}
+
+.dokugitviewerextended li.commit span.meta {
+	float: right;
+}
+
+.dokugitviewerextended a.seechanges {
+	font-size: 90%;
+}
+
+.dokugitviewerextended li.commit ul.changedfiles{
+	display: none;
+	clear: both;
+	font-size: 90%;
+	margin: 10px 0px 40px 20px;
+}
