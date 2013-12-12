@@ -100,9 +100,9 @@ class syntax_plugin_gitlog extends DokuWiki_Syntax_Plugin
 				foreach($log as $row)
 				{
 					$renderer->doc .= '<li class="commit"><span class="message">';
-					$renderer->doc .= $row['message'];
+					$renderer->doc .= hsc($row['message']);
 					$renderer->doc .= '</span><span class="meta">';
-					$renderer->doc .= $row['author'].' on '.date($this->getConf('date_format'), $row['timestamp']);				
+					$renderer->doc .= hsc($row['author']).' : '.date($this->getConf('date_format'), $row['timestamp']);				
 					$renderer->doc .= '</span>';
 
 					// render changed file list if any
@@ -112,7 +112,7 @@ class syntax_plugin_gitlog extends DokuWiki_Syntax_Plugin
 
 						$renderer->doc .= '<ul class="changedfiles">';
 						foreach ($row['changedfiles'] as $changedfile) {
-							$renderer->doc .= '<li>'.$changedfile.'</li>';
+							$renderer->doc .= '<li>'.hsc($changedfile).'</li>';
 						}
 						$renderer->doc .= '</ul>';
 					}
