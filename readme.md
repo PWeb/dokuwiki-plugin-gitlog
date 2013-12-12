@@ -20,16 +20,15 @@ And it will build you a list of your latest commits and the files changed.
 
 ## Requirements:
 
-  * PHP5
   * Git
+  * PHP5
 
 ## Installation:
 
-  1) Clone or download this into plugins/ directory in your dokuwiki installation
-  2) activate plugin
-  3) goto admin configuration page and set up plugin
-  4) Add <gitlog> link into your wiki page
-
+  - Clone or download this into plugins/ directory in your dokuwiki installation
+  - activate plugin
+  - goto admin configuration page and set up plugin
+  - Add <gitlog> link into your wiki page
 
 Author: Alexander Wenzel (alexander.wenzel.berlin@gmail.com)
 
