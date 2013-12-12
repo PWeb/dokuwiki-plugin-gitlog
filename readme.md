@@ -1,39 +1,47 @@
-Git repository viewer plugin for Dokuwiki
-=========================================
+# Git repository log viewer plugin for Dokuwiki
+----
 
-Please notice, that this is barely usable at the moment.
-I made this for my own usei only, so the code is very very ugly.
+This plugin is based on: https://github.com/tuomasj/dokugitviewer
 
 The main idea is this:
 
+````
 git commit -m "Fixed a typo bug #bug24"
+````
 
 After committing, the wiki plugin will show commit messages and
 convert "#bug24" into internal link to bug-page with correct anchor.
 
 It also workd this way too:
 
+````
 git commit -m "Started working for login page (#ft4)"
+````
 
 The "#ft4" is transformed into internal link to features page and creating
 hyperlink into #ft4 (you need bookmark-plugin for creating those anchors)
 
 Just add this into wiki page:
 
-<dokugitviewer:repository=my-repository-name features=backlog bugs=bugdb limit=15>
+````
+<gitlog:repository=my-repository-name features=backlog bugs=bugdb limit=15>
+````
 
 And it will build you a list of your latest commits
 
-Requirements:
-  Bookmark-plugin installed for Dokuwiki
-  PHP5
-  Git
+# Requirements:
 
-Installation:
+  * Bookmark-plugin installed for Dokuwiki
+  * PHP5
+  * Git
+
+# Installation:
+
   1) Clone this repository into plugins/ directory in your dokuwiki directory
-  2) Edit the config.inc.php file
-  3) Add <dokugitviewer> link into your wiki page
+  2) activate plugin
+  3) goto admin configuration page and set up plugin
+  4) Add <gitlog> link into your wiki page
 
 Dokuwiki: http://www.dokuwiki.org
 
-Author: Tuomas Jomppanen (http://www.jomppanen.com)
+Author: Alexander Wenzel (alexander.wenzel.berlin@gmail.com)

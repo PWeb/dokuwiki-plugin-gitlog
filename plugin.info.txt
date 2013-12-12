@@ -1,7 +1,7 @@
-base dokugitviewerextended
+base gitlog
 author Alexander Wenzel
 email alexander.wenzel.berlin@mail.com
 date 2013-12-12
-name Doku-Git-Viewer (extended)
+name Git Log (based on: Doku-Git-Viewer)
 desc Display git commits and link bug-id and feature-ids
-url http://www.dokuwiki.org/plugin:dokugitviewer-extended
+url http://www.dokuwiki.org/plugin:gitlog
