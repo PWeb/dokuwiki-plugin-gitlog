@@ -10,32 +10,34 @@ require_once('git-utils.inc.php');
 
 function find_end($string, $offset = 0)
 {
-    if($offset >= strlen($string))
-        return FALSE;
-    for($i = $offset; $i < strlen($string); $i++)
-    {
-        if(!is_numeric($string[$i]))
-            return $i;
-    }
-    return strlen($string);
+	if($offset >= strlen($string))
+		return FALSE;
+	for($i = $offset; $i < strlen($string); $i++)
+	{
+		if(!is_numeric($string[$i]))
+			return $i;
+	}
+	return strlen($string);
 }
 
-class syntax_plugin_dokugitviewer extends DokuWiki_Syntax_Plugin {
+class syntax_plugin_dokugitviewerextended extends DokuWiki_Syntax_Plugin
+{
+	function getType()
+	{
+		return 'substition';
+	}
  
-    function getType(){
-        return 'substition';
-    }
+	function getSort()
+	{
+		return 999;
+	}
  
-    function getSort(){
-        return 999;
-    }
- 
-    function connectTo($mode) {
-      	$this->Lexer->addSpecialPattern('<dokugitviewer:.+?>',$mode,'plugin_dokugitviewer');
-    }
- 
- 
-    function handle($match, $state, $pos, &$handler)
+	function connectTo($mode)
+	{
+		$this->Lexer->addSpecialPattern('<dokugitviewer:.+?>',$mode,'plugin_dokugitviewerextended');
+	}
+	
+	function handle($match, $state, $pos, &$handler)
 	{
 		$start = strlen('<dokugitviewer:');
 		$end = -1;
@@ -50,68 +52,97 @@ class syntax_plugin_dokugitviewer extends DokuWiki_Syntax_Plugin {
 			$val = explode('=', $param);
 			$return[$val[0]] = $val[1];
 		}
-        return $return;
-    }
+		return $return;
+	}
  
-    function render($mode, &$renderer, $data) {
-		$elements = array('ft' => 'features',
-						  'bug' => 'bugs');
-        if($mode == 'xhtml'){
+	function render($mode, &$renderer, $data)
+	{
+		$elements = array(
+			'ft' => 'features',
+			'bug' => 'bugs'
+		);
+
+		if($mode == 'xhtml')
+		{
 			if(isset($data['repository']))
 			{
-				if(isset($data['limit']) && is_numeric($data['limit']))
+
+				if(isset($data['limit']) && is_numeric($data['limit'])) {
 					$limit = (int)($data['limit']);
-				else
+				} else {
 					$limit = 10;
-			        if (empty($data['bare']))
-			          $bare=false;
-			        else
-			          $bare=true;
-				$log = git_get_log($data['repository'], $limit,$bare);
-				$renderer->doc .= '<ul class="dokugitviewer">';
+				}
+
+				if (empty($data['bare'])) {
+					$bare=false;
+				} else {
+					$bare=true;
+				}
+
+				// get the git log and changed files
+				$log = git_get_log($data['repository'], $limit, $bare);
+
+				$renderer->doc .= '<ul class="dokugitviewerextended">';
+
 				foreach($log as $row)
 				{
-					$renderer->doc .= '<li>';
+					$renderer->doc .= '<li class="commit"><span class="message">';
 					$message = $row['message'];
+
 					for($index = 0; $index < strlen($message); $index++)
 					{
 						$char = $message[$index];
-						if($char == '#')
-                        {
-                            foreach(array_keys($elements) as $element)
-                            {
-                                $cmp = '#'.$element;
-                                $src = substr($message, $index, strlen($cmp));
-                                if(strstr($src, $cmp))
-                                {
-                                    $key = substr($message, $index+1, strlen($cmp)-1);
-                                    
-                                    $src= substr($message, $index+1+strlen($key));
-                                    $value = substr($src, 0, find_end($src));
-                                    $index += strlen($element.$value); 
-                                    $renderer->internallink($data[$elements[$element]].'#'.$element.$value, '#'.$element.$value);
 
-                                }
-                            }
+						if($char == '#')
+						{
+							foreach(array_keys($elements) as $element)
+							{
+								$cmp = '#'.$element;
+								$src = substr($message, $index, strlen($cmp));
+								if(strstr($src, $cmp))
+								{
+									$key = substr($message, $index+1, strlen($cmp)-1);
+									
+									$src= substr($message, $index+1+strlen($key));
+									$value = substr($src, 0, find_end($src));
+									$index += strlen($element.$value); 
+									$renderer->internallink($data[$elements[$element]].'#'.$element.$value, '#'.$element.$value);
+
+								}
+							}
 						}
 						else
+						{
 							$renderer->doc .= $char;
+						}
 					}
-					//$renderer->doc .= '<strong>'.$message.'</strong>';
-					$renderer->doc .= '<br />';
-					$renderer->doc .= $row['author'].' on ';					
-					$renderer->doc .= date(DATE_FORMAT,$row['timestamp']);
-				
+
+					$renderer->doc .= '</span><span class="meta">';
+					$renderer->doc .= $row['author'].' on '.date(DATE_FORMAT,$row['timestamp']);				
+					$renderer->doc .= '</span>';
+
+					// render changed file list if any
+					if ( ! empty($row['changedfiles']) ) {
+
+						$renderer->doc .= ' <a href="#" class="seechanges">[See Changes]</a>';
+
+						$renderer->doc .= '<ul class="changedfiles">';
+						foreach ($row['changedfiles'] as $changedfile) {
+							$renderer->doc .= '<li>'.$changedfile.'</li>';
+						}
+						$renderer->doc .= '</ul>';
+					}
+
 					$renderer->doc .= '</li>';
 					
 				}
+
 				$renderer->doc .= '</ul>';				
 			}
-            return true;
-        }
-        return false;
-    }
-}
- 
-?>
 
+			return true;
+		}
+
+		return false;
+	}
+}

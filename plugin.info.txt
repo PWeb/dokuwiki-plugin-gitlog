@@ -1,7 +1,7 @@
-base dokugitviewer
-author Tuomas Jomppanen
-email 
-date 2010-11-26
-name Doku-Git-Viewer
-desc display git commits and link bug-id and feature-ids
-url http://www.dokuwiki.org/plugin:dokugitviewer
+base dokugitviewerextended
+author Alexander Wenzel
+email alexander.wenzel.berlin@mail.com
+date 2013-12-12
+name Doku-Git-Viewer (extended)
+desc Display git commits and link bug-id and feature-ids
+url http://www.dokuwiki.org/plugin:dokugitviewer-extended
