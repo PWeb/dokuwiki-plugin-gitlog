@@ -17,12 +17,25 @@ class syntax_plugin_gitlog extends DokuWiki_Syntax_Plugin
 		return 999;
 	}
  
+ 	/**
+ 	 * Registers the regular expressions
+ 	 * @param  mixed $mode
+ 	 * @return void
+ 	 */
 	function connectTo($mode)
 	{
 		$this->Lexer->addSpecialPattern('<gitlog:.+?>', $mode, 'plugin_gitlog');
 	}
 	
-	function handle($match, $state, $pos, &$handler)
+	/**
+	 * Prepares the matched syntax for use in the renderer
+	 * @param  mixed $match
+	 * @param  mixed $state
+	 * @param  mixed $pos
+	 * @param  Doku_Handler $handler
+	 * @return array
+	 */
+	function handle($match, $state, $pos, Doku_Handler &$handler)
 	{
 		$start = strlen('<gitlog:');
 		$end = -1;
