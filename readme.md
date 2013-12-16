@@ -31,7 +31,9 @@ If you use git on windows, use ```git```.
 
 #### Root directory for your repositories
 
-Put here the path, where your repositories are.
+Put here the path, where your repositories are. This is optional!
+
+You can customize the path to your repo also within the shortcode.
 
 #### Date format
 
@@ -44,12 +46,10 @@ http://www.php.net/manual/en/function.date.php
 Just add this into wiki page:
 
 ````
-<gitlog:repository=my-repository-name [bare=0] [limit=10]>
+<gitlog:repository=my-repository-name [dir=custom/path/to/repo/] [bare=0] [limit=10] >
 ````
 
 Parameters in brackets [] are optional. Please dont use brackets within shortcode!
-
-And it will build you a list of your latest commits and the files changed.
 
 ## Info
 

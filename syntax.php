@@ -53,6 +53,7 @@ class syntax_plugin_gitlog extends DokuWiki_Syntax_Plugin
 			$val = explode('=', $param);
 			$return[$val[0]] = $val[1];
 		}
+
 		return $return;
 	}
  
@@ -65,21 +66,15 @@ class syntax_plugin_gitlog extends DokuWiki_Syntax_Plugin
  	 */
 	function render($mode, Doku_Renderer &$renderer, $data)
 	{
-		// check if settings are set
-		if ( ! $this->getConf('root_dir') ) {
-			return false;
-		}
-
-		$elements = array(
-			'ft' => 'features',
-			'bug' => 'bugs'
-		);
-
 		if($mode == 'xhtml')
 		{
-			// if no repository is set with parameter
-			if(isset($data['repository']))
-			{
+			try {
+
+				// check if repository is set
+				if( ! isset($data['repository'])) {
+					throw new Exception('no repository set', 1);
+				}
+
 				// check limit parameter
 				if(isset($data['limit']) && is_numeric($data['limit'])) {
 					$limit = (int)($data['limit']);
@@ -94,8 +89,20 @@ class syntax_plugin_gitlog extends DokuWiki_Syntax_Plugin
 					$bare=true;
 				}
 
+				// if a dir parameter is set, use this instead of config value
+				if ( ! empty($data['dir']) ) {
+					$repository = $this->clean_git_dir($data['dir']).$data['repository'];
+				} else {
+					$repository = $this->clean_git_dir($this->getConf('root_dir')).$data['repository'];
+				}
+
+				// check if path is invalid
+				if ( ! is_dir(dirname($repository)) ) {
+					throw new Exception('filepath not valid >> '.dirname($repository), 1);
+				}
+				
 				// get the git log and changed files
-				$log = $this->git_log($data['repository'], $limit, $bare);
+				$log = $this->git_log($repository, $limit, $bare);
 
 				// start rendering
 				$renderer->doc .= '<ul class="gitlogplugin">';
@@ -124,7 +131,13 @@ class syntax_plugin_gitlog extends DokuWiki_Syntax_Plugin
 					
 				}
 
-				$renderer->doc .= '</ul>';				
+				$renderer->doc .= '</ul>';
+
+			} catch (Exception $e) {
+				
+				$renderer->doc .= 'Error: ' . $e->getMessage();
+				return true;
+
 			}
 
 			return true;
@@ -178,22 +191,29 @@ class syntax_plugin_gitlog extends DokuWiki_Syntax_Plugin
 	 */
 	function run_git($command, $repo, $bare=false)
 	{
-		$repo = str_replace('/', '', $repo);
-		$repo = str_replace('\\', '', $repo);
+		// $repo = str_replace('/', '', $repo);
+		// $repo = str_replace('\\', '', $repo);
 
-		if (!$bare) {
-			$repo.='/.git';	
+		// if not bare, add git folder
+		if ( ! $bare ) {
+			$repo .= '/.git';	
 		}
 			
 		$output = array();
 		$ret = 0;
-		$c = $this->getConf('git_exec').' --git-dir='.$this->getConf('root_dir').$repo.' '.$command;
+		$c = $this->getConf('git_exec').' --git-dir='.$repo.' '.$command;
 		exec($c, $output, $ret);
 
-		if ($ret != 0) { 
-			//debug
-			echo($c);
-			die('git failed, is git path correct?'); 
+		if ($ret != 0) {
+
+			//an error
+
+			$exceptionmessage = "The following command failed:<br>";
+			$exceptionmessage .= $c . "<br>";
+			$exceptionmessage .= "Please check configuration and/or path!";
+
+			throw new Exception($exceptionmessage, 1);
+
 		}
 
 		return $output;
@@ -217,5 +237,17 @@ class syntax_plugin_gitlog extends DokuWiki_Syntax_Plugin
 	function remove_empty($value)
 	{
 		return !empty($value) || $value === 0;
+	}
+
+	/**
+	 * Cleans the git_dir string and
+	 * removes possible errors
+	 * @param  string $value
+	 * @return string
+	 */
+	function clean_git_dir($value)
+	{
+		$value = trim($value, "'");
+		return trim($value, "\/").DIRECTORY_SEPARATOR;
 	}
 }
