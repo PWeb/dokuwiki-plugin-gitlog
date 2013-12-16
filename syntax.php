@@ -5,6 +5,9 @@ if(!defined('DOKU_INC')) die();
 if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 require_once(DOKU_PLUGIN.'syntax.php');
 
+// implode, explode delimiter
+define('GITLOG_DELIMITER', '|');
+
 class syntax_plugin_gitlog extends DokuWiki_Syntax_Plugin
 {
 	function getType()
@@ -140,14 +143,14 @@ class syntax_plugin_gitlog extends DokuWiki_Syntax_Plugin
 	function git_log($repo, $limit = 10, $bare=false)
 	{
 		$format = array('%H', '%at', '%an', '%s');
-		$params = implode($this->getConf('delimiter'), $format);
+		$params = implode(GITLOG_DELIMITER, $format);
 		$data = $this->run_git('log --pretty=format:"'.$params.'" -'.$limit, $repo, $bare);	
 		$result = array();
 
 		foreach($data as $line)
 		{
 			// explode
-			$columns = explode($this->getConf('delimiter'), $line);
+			$columns = explode(GITLOG_DELIMITER, $line);
 
 			// run git show command
 			$changedfiles = $this->run_git('show --pretty="format:" --name-only '.$columns[0], $repo, $bare);
