@@ -1,4 +1,4 @@
-# Git repository log viewer plugin for Dokuwiki
+# Git repository log viewer for Dokuwiki
 
 This dokuwiki plugin displays your last commits for a given repository and the changed files.
 
@@ -8,16 +8,6 @@ This plugin is based on: https://github.com/tuomasj/dokugitviewer
 
 ![Image](screenshot.png?raw=true)
 
-## Usage
-
-Just add this into wiki page:
-
-````
-<gitlog:repository=my-repository-name [bare=0] [limit=10]>
-````
-
-And it will build you a list of your latest commits and the files changed.
-
 ## Requirements:
 
   * Git
@@ -26,9 +16,24 @@ And it will build you a list of your latest commits and the files changed.
 ## Installation:
 
   - Clone or download this into plugins/ directory in your dokuwiki installation
-  - activate plugin
-  - goto admin configuration page and set up plugin
-  - Add <gitlog> link into your wiki page
+  - if nessecary, rename directory to "gitlog"
+  - activate plugin inside dokuwiki
+  - goto admin configuration page, section "plugin/gitlog" and set up plugin
+  - Add <gitlog> shortcode into your wiki page
+
+## Usage
+
+Just add this into wiki page:
+
+````
+<gitlog:repository=my-repository-name [bare=0] [limit=10]>
+````
+
+Parameters in brackets [] are optional. Please dont use brackets within shortcode!
+
+And it will build you a list of your latest commits and the files changed.
+
+## Info
 
 Author: Alexander Wenzel (alexander.wenzel.berlin@gmail.com)
 
