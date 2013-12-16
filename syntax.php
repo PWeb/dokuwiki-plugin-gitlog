@@ -5,19 +5,6 @@ if(!defined('DOKU_INC')) die();
 if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
 require_once(DOKU_PLUGIN.'syntax.php');
 
-
-function find_end($string, $offset = 0)
-{
-	if($offset >= strlen($string))
-		return FALSE;
-	for($i = $offset; $i < strlen($string); $i++)
-	{
-		if(!is_numeric($string[$i]))
-			return $i;
-	}
-	return strlen($string);
-}
-
 class syntax_plugin_gitlog extends DokuWiki_Syntax_Plugin
 {
 	function getType()
