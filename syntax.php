@@ -109,11 +109,11 @@ class syntax_plugin_gitlog extends DokuWiki_Syntax_Plugin
 
 				foreach($log as $row)
 				{
-					$renderer->doc .= '<li class="commit"><span class="message">';
+					$renderer->doc .= '<li class="commit"><div class="message">';
 					$renderer->doc .= hsc($row['message']);
-					$renderer->doc .= '</span><span class="meta">';
+					$renderer->doc .= '</div><div class="meta">';
 					$renderer->doc .= hsc($row['author']).' : '.date($this->getConf('date_format'), $row['timestamp']);				
-					$renderer->doc .= '</span>';
+					$renderer->doc .= '</div>';
 
 					// render changed file list if any
 					if ( ! empty($row['changedfiles']) ) {

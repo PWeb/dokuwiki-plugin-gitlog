@@ -1,13 +1,14 @@
 .gitlogplugin li.commit {
 	margin-bottom: 10px;
+	border-spacing: 0;
 }
 
-.gitlogplugin li.commit span.message {
+.gitlogplugin li.commit div.message {
 	font-weight: bold;
 }
 
 .gitlogplugin li.commit span.meta {
-	float: right;
+	font-size: 90%;
 }
 
 .gitlogplugin a.seechanges {
