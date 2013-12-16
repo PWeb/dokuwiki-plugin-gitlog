@@ -23,16 +23,17 @@ This plugin is based on: https://github.com/tuomasj/dokugitviewer
 
 ## Configuration
 
-### Location of your git executable
+#### Location of your git executable
 
 Usally ```/usr/bin/git``` on linux maschines.
+
 If you use git on windows, use ```git```.
 
-### Root directory for your repositories
+#### Root directory for your repositories
 
 Put here the path, where your repositories are.
 
-### Date format
+#### Date format
 
 Use php ```date()``` format strings.
 
