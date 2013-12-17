@@ -40,21 +40,19 @@ class syntax_plugin_gitlog extends DokuWiki_Syntax_Plugin
 	 */
 	function handle($match, $state, $pos, Doku_Handler &$handler)
 	{
-		$start = strlen('<gitlog:');
-		$end = -1;
-		$params = substr($match, $start, $end);
-		$params = preg_replace('/\s{2,}/', '', $params);
-		$params = preg_replace('/\s[=]/', '=', $params);
-		$params = preg_replace('/[=]\s/', '=', $params);
+		// default value
+		$parameters = array();
 
-		$return = array();
-		foreach(explode(' ', $params) as $param)
+		// regex
+		preg_match_all('#(\w+)\s*=\s*"(.*?)"#', $match, $return);
+
+		if (is_array($return) && isset($return[1]) && is_array($return[1]))
+		foreach($return[1] as $index => $name)
 		{
-			$val = explode('=', $param);
-			$return[$val[0]] = $val[1];
+			$parameters[$name] = $return[2][$index];
 		}
 
-		return $return;
+		return $parameters;
 	}
  
  	/**
@@ -191,17 +189,14 @@ class syntax_plugin_gitlog extends DokuWiki_Syntax_Plugin
 	 */
 	function run_git($command, $repo, $bare=false)
 	{
-		// $repo = str_replace('/', '', $repo);
-		// $repo = str_replace('\\', '', $repo);
-
 		// if not bare, add git folder
 		if ( ! $bare ) {
-			$repo .= '/.git';	
+			$repo .= DIRECTORY_SEPARATOR . '.git';
 		}
 			
 		$output = array();
 		$ret = 0;
-		$c = $this->getConf('git_exec').' --git-dir='.$repo.' '.$command;
+		$c = $this->getConf('git_exec').' --git-dir="'.$repo.'" '.$command;
 		exec($c, $output, $ret);
 
 		if ($ret != 0) {

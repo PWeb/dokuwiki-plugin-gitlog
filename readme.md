@@ -46,10 +46,11 @@ http://www.php.net/manual/en/function.date.php
 Just add this into wiki page:
 
 ````
-<gitlog:repository=my-repository-name [dir=custom/path/to/repo/] [bare=0] [limit=10] >
+<gitlog:repository="my-repository-name" [dir="custom/path/to/repo/"] [bare="0"] [limit="10"]>
 ````
 
 Parameters in brackets [] are optional. Please dont use brackets within shortcode!
+
 
 ## Info
 
