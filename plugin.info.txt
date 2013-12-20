@@ -1,7 +1,7 @@
 base gitlog
 author Alexander Wenzel
 email alexander.wenzel.berlin@mail.com
-date 2013-12-12
+date 2013-12-20
 name Git Log (based on: Doku-Git-Viewer)
 desc Display git commits and changed files.
 url http://www.dokuwiki.org/plugin:gitlog
