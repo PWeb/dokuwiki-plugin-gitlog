@@ -54,6 +54,6 @@ Parameters in brackets [] are optional. Please dont use brackets within shortcod
 
 ## Info
 
-Author: Alexander Wenzel (alexander.wenzel.berlin@gmail.com)
+Author: Alexander Wenzel (https://plus.google.com/+alexwenzel86)
 
 Plugin page: http://www.dokuwiki.org/plugin:gitlog
