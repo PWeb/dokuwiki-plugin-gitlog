@@ -96,7 +96,7 @@ class syntax_plugin_gitlog extends DokuWiki_Syntax_Plugin
 
 				// check if path is invalid
 				if ( ! is_dir(dirname($repository)) ) {
-					throw new Exception('filepath not valid >> '.dirname($repository), 1);
+					throw new Exception('repository path not valid >> '.$repository, 1);
 				}
 				
 				// get the git log and changed files
@@ -243,6 +243,6 @@ class syntax_plugin_gitlog extends DokuWiki_Syntax_Plugin
 	function clean_git_dir($value)
 	{
 		$value = trim($value, "'");
-		return trim($value, "\/").DIRECTORY_SEPARATOR;
+		return rtrim($value, "\/").DIRECTORY_SEPARATOR;
 	}
 }
