@@ -38,7 +38,7 @@ class syntax_plugin_gitlog extends DokuWiki_Syntax_Plugin
 	 * @param  Doku_Handler $handler
 	 * @return array
 	 */
-	function handle($match, $state, $pos, Doku_Handler &$handler)
+	function handle($match, $state, $pos, Doku_Handler $handler)
 	{
 		// default value
 		$parameters = array();
@@ -62,7 +62,7 @@ class syntax_plugin_gitlog extends DokuWiki_Syntax_Plugin
  	 * @param  array         $data
  	 * @return bool
  	 */
-	function render($mode, Doku_Renderer &$renderer, $data)
+	function render($mode, Doku_Renderer $renderer, $data)
 	{
 		if($mode == 'xhtml')
 		{
